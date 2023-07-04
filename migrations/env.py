@@ -7,6 +7,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from core import Base, SQLALCHEMY_DATABASE_URL
+from microblog.models import Post
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -65,7 +66,7 @@ def run_migrations_online() -> None:
 
     """
     configuration = config.get_section(config.config_ini_section)
-    configuration['sqlalchemy.url'] = SQLALCHEMY_DATABASE_URL
+    configuration['sqlalchemy.url'] = "postgresql://postgres:1@localhost/microblog"
     connectable = engine_from_config(
         configuration,
         prefix="sqlalchemy.",

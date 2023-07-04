@@ -1,6 +1,7 @@
 from core.db import Base
 from sqlalchemy import Column, String, Integer, VARCHAR, ForeignKey, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import UUID
+from datetime import datetime
 
 
 class Post(Base):
@@ -9,6 +10,5 @@ class Post(Base):
     id = Column(Integer, primary_key=True, index=True, unique=True)
     title = Column(String)
     text = Column(VARCHAR(350))
-    date = Column(DateTime)
-    user = Column(Integer, ForeignKey("user.id"))
-    user_id = relationship("User")
+    date = Column(DateTime, default=datetime.utcnow)
+    user = Column(UUID(as_uuid=True), ForeignKey('user.id'))

@@ -1,15 +1,18 @@
-from sqlalchemy.orm import Session
 from .models import Post
 from .schemas import PostCreate
 
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
-def get_post_list(db: Session):
-    return db.query(Post).all()
+
+async def get_post_list(session: AsyncSession):
+    res = await session.execute(select(Post))
+    return res.scalars().all()
 
 
-def create_post_(db: Session, item: PostCreate):
+async def create_post_(session: AsyncSession, item: PostCreate):
     post = Post(**item.dict())
-    db.add(post)
-    db.commit()
-    db.refresh(post)
+    session.add(post)
+    await session.commit()
+    await session.refresh(post)
     return post

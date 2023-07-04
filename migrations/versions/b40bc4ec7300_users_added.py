@@ -1,8 +1,8 @@
-"""Post model
+"""users added
 
-Revision ID: 58cfccccb9e1
+Revision ID: b40bc4ec7300
 Revises: 
-Create Date: 2023-07-02 23:33:14.629262
+Create Date: 2023-07-04 00:08:38.947612
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '58cfccccb9e1'
+revision = 'b40bc4ec7300'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,6 +22,9 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=True),
     sa.Column('text', sa.VARCHAR(length=350), nullable=True),
+    sa.Column('date', sa.DateTime(), nullable=True),
+    sa.Column('user', sa.UUID(), nullable=True),
+    sa.ForeignKeyConstraint(['user'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_microblog_posts_id'), 'microblog_posts', ['id'], unique=True)
